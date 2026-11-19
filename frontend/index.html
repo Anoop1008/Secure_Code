@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Code Review and Software Quality Analysis Platform</title>
+    <meta name="description" content="AI-based platform to automate code review, detect security vulnerabilities, analyze software quality, and provide detailed audit reports.">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">🛡️</div>
+            <div>
+                <div class="brand-title">SecureCode AI</div>
+                <div class="brand-subtitle">Software Quality & Security Analysis Platform</div>
+            </div>
+        </div>
+
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+
+
+
+        <!-- Navigation Tabs -->
+        <div class="tabs-container">
+            <button class="tab-btn active" data-tab="overview">
+                📊 Executive Dashboard
+            </button>
+            <button class="tab-btn" data-tab="editor">
+                🔍 Code Scanner & Annotator
+            </button>
+            <button class="tab-btn" data-tab="git">
+                🔀 Git Diff Analyzer
+            </button>
+            <button class="tab-btn" data-tab="vulns">
+                🚨 Vulnerabilities & OWASP
+            </button>
+            <button class="tab-btn" data-tab="reports">
+                📄 Audit Report Exporter
+            </button>
+        </div>
+
+        <!-- ================= TAB 1: EXECUTIVE DASHBOARD ================= -->
+        <div class="tab-panel active" id="tab-overview">
+            
+            <!-- Stats Row -->
+            <div class="dashboard-grid">
+                <div class="stat-card stat-rose">
+                    <div class="stat-label">Security Health Grade</div>
+                    <div class="stat-value" id="stat-grade" style="color: var(--accent-cyan);">A+</div>
+                    <div class="stat-sub">Overall Rating</div>
+                </div>
+                <div class="stat-card stat-emerald">
+                    <div class="stat-label">Security Score</div>
+                    <div class="stat-value" id="stat-sec-score">100/100</div>
+                    <div class="stat-sub">Vulnerability Penalty Model</div>
+                </div>
+                <div class="stat-card stat-purple">
+                    <div class="stat-label">Quality Score</div>
+                    <div class="stat-value" id="stat-qual-score">95/100</div>
+                    <div class="stat-sub">Maintainability & Structure</div>
+                </div>
+                <div class="stat-card stat-amber">
+                    <div class="stat-label">Vulnerabilities Detected</div>
+                    <div class="stat-value" id="stat-vuln-count">0</div>
+                    <div class="stat-sub">OWASP Top 10 / CWE</div>
+                </div>
+                <div class="stat-card stat-emerald">
+                    <div class="stat-label">Maintainability Index</div>
+                    <div class="stat-value" id="stat-maintainability">85.0 (A)</div>
+                    <div class="stat-sub">SEI Metric Standard</div>
+                </div>
+                <div class="stat-card stat-purple">
+                    <div class="stat-label">Cyclomatic Complexity</div>
+                    <div class="stat-value" id="stat-complexity">3.0 (A)</div>
+                    <div class="stat-sub">Control Flow Complexity</div>
+                </div>
+                <div class="stat-card stat-amber">
+                    <div class="stat-label">Est. Technical Debt</div>
+                    <div class="stat-value" id="stat-tech-debt">0.5 hrs</div>
+                    <div class="stat-sub">Remediation Effort</div>
+                </div>
+            </div>
+
+            <!-- Gauges & Summary Section -->
+            <div class="scanner-grid">
+                
+                <!-- AI Review Summary -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🤖 AI Code Health & Review Summary</div>
+                        <span class="badge badge-low">AI Analysis</span>
+                    </div>
+                    <div id="ai-summary-text" style="font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+                        Run a code scan to view intelligent AI quality analysis and security recommendations.
+                    </div>
+                    <div style="font-weight: 600; font-size: 13px; color: var(--accent-cyan); margin-bottom: 8px;">
+                        💡 Top Recommendations:
+                    </div>
+                    <ul id="ai-recommendations-list" style="padding-left: 20px; font-size: 13px; color: var(--text-secondary);">
+                        <li>Select a sample code snippet or paste your source code in the Code Scanner tab.</li>
+                    </ul>
+                </div>
+
+                <!-- Score Gauges & OWASP Breakdown -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">📈 Quality Gauges & OWASP Breakdown</div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 24px;">
+                        <div style="text-align: center;">
+                            <div id="sec-gauge-container"></div>
+                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px; font-weight: 600;">Security Score</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div id="qual-gauge-container"></div>
+                            <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px; font-weight: 600;">Quality Score</div>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">
+                        Severity Distribution:
+                    </div>
+                    <div id="severity-bar-container"></div>
+
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin: 20px 0 10px 0;">
+                        OWASP Top 10 Categories Triggered:
+                    </div>
+                    <div id="owasp-container"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ================= TAB 2: CODE SCANNER & ANNOTATOR ================= -->
+        <div class="tab-panel" id="tab-editor">
+            <div class="card">
+                <div class="editor-toolbar">
+                    <div class="controls-group">
+                        <span style="font-weight: 600; font-size: 13px; color: var(--text-secondary);">Preset Samples:</span>
+                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="loadSampleCode('vulnerable_python')">
+                            ⚠️ Vulnerable Python
+                        </button>
+                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="loadSampleCode('clean_python')">
+                            ✅ Clean Python
+                        </button>
+                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="loadSampleCode('vulnerable_js')">
+                            ⚠️ Node.js Express
+                        </button>
+                    </div>
+
+                    <div class="controls-group">
+                        <select id="language-select">
+                            <option value="python">Python 3</option>
+                            <option value="javascript">JavaScript / Node.js</option>
+                            <option value="java">Java</option>
+                            <option value="cpp">C / C++</option>
+                            <option value="sql">SQL</option>
+                        </select>
+                        <input type="text" id="filename-input" value="main.py" style="width: 140px;" placeholder="File name">
+                        <button class="btn" id="scan-btn" onclick="analyzeCode()">
+                            🚀 Scan & Review Code
+                        </button>
+                        <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);" onclick="applyAllFixes()">
+                            ✨ Auto-Fix All
+                        </button>
+                    </div>
+                </div>
+
+                <div class="scanner-grid">
+                    <div>
+                        <div style="font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">
+                            Source Code Input Editor:
+                        </div>
+                        <textarea class="code-editor" id="code-editor" spellcheck="false"></textarea>
+                    </div>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 600; color: var(--accent-cyan); margin-bottom: 8px;">
+                            Annotated Code & Inline AI Fix Drawer:
+                        </div>
+                        <div id="annotated-code-view">
+                            <div style="padding: 40px; text-align: center; color: var(--text-muted); font-size: 13px;">
+                                Click "Scan & Review Code" to generate line-by-line annotations.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 3: GIT DIFF ANALYZER ================= -->
+        <div class="tab-panel" id="tab-git">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🔀 Git Unified Diff & Pull Request Scanner</div>
+                    <button class="btn" id="scan-diff-btn" onclick="analyzeDiffPatch()">
+                        🔍 Analyze Git Diff
+                    </button>
+                </div>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                    Paste a standard Git unified diff patch (from <code style="color: var(--accent-cyan);">git diff</code> or Pull Request commit) to audit incoming code changes.
+                </p>
+                <textarea class="code-editor" id="diff-editor" style="height: 380px;" placeholder="diff --git a/server.py b/server.py
+--- a/server.py
++++ b/server.py
+@@ -10,3 +10,3 @@
+-cursor.execute('SELECT * FROM users WHERE id = %s', (uid,))
++cursor.execute(f'SELECT * FROM users WHERE id = {uid}')"></textarea>
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: VULNERABILITIES & OWASP ================= -->
+        <div class="tab-panel" id="tab-vulns">
+            <div class="card">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="card-title">🚨 Detected Vulnerabilities & CWE Classification</div>
+                    <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);" onclick="applyAllFixes()">
+                        ✨ Auto-Fix All Vulnerabilities
+                    </button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Line</th>
+                            <th>Severity</th>
+                            <th>Title & Standards</th>
+                            <th>Vulnerable Snippet</th>
+                            <th>Recommendation</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vuln-table-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                                No vulnerabilities to display. Run a code scan.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= TAB 5: AUDIT REPORTS & EXPORT ================= -->
+        <div class="tab-panel" id="tab-reports">
+            <div class="card" style="text-align: center; padding: 48px 24px;">
+                <div style="font-size: 48px; margin-bottom: 16px;">📄</div>
+                <div class="card-title" style="justify-content: center; font-size: 22px; margin-bottom: 8px;">
+                    Executive Security & Quality Audit Exporter
+                </div>
+                <p style="max-width: 600px; margin: 0 auto 32px auto; color: var(--text-secondary); font-size: 14px;">
+                    Download a comprehensive, self-contained HTML Audit Report complete with security grade badges, OWASP breakdown, static findings table, and AI remediation plan.
+                </p>
+                <div style="display: flex; gap: 16px; justify-content: center;">
+                    <button class="btn" style="padding: 14px 28px; font-size: 15px;" onclick="exportAuditReport('html')">
+                        📥 Download HTML Audit Report
+                    </button>
+                    <button class="btn btn-secondary" style="padding: 14px 28px; font-size: 15px;" onclick="exportAuditReport('json')">
+                        💾 Export Raw JSON Audit Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Application JavaScript Modules -->
+    <script src="js/charts.js"></script>
+    <script src="js/diff_viewer.js"></script>
+    <script src="js/analyzer.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
